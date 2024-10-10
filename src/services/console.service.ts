@@ -14,10 +14,10 @@ export class ConsoleService {
 
   // Crée une nouvelle console
   public async createConsole(
-    name: string,
-    manufacturer: string
+      name: string,
+      manufacturer: string
   ): Promise<Console> {
-    return Console.create({ id: -1, name: name, manufacturer: manufacturer });
+    return Console.create({name: name, manufacturer: manufacturer });
   }
 
   // Supprime une console par ID

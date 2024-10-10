@@ -18,7 +18,7 @@ const models: TsoaRoute.Models = {
     "ConsoleDTO": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"double"},
+            "id": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
             "manufacturer": {"dataType":"string","required":true},
         },

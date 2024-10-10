@@ -22,7 +22,7 @@ export class ConsoleController extends Controller {
   public async createConsole(
     @Body() requestBody: ConsoleDTO
   ): Promise<ConsoleDTO> {
-    const { name, manufacturer } = requestBody;
+    const {name, manufacturer } = requestBody;
     return consoleService.createConsole(name, manufacturer);
   }
 
