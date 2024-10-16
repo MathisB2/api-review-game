@@ -1,6 +1,10 @@
 import { Controller, Get, Post, Delete, Route, Path, Body, Tags, Patch } from "tsoa";
 import { consoleService } from "../services/console.service";
 import { ConsoleDTO } from "../dto/console.dto";
+import {notFound} from "../error/NotFoundError";
+import * as Console from "node:console";
+import {GameDTO} from "../dto/game.dto";
+import {gameService} from "../services/game.service";
 
 @Route("consoles")
 @Tags("Consoles")
@@ -14,7 +18,13 @@ export class ConsoleController extends Controller {
   // Récupère une console par ID
   @Get("{id}")
   public async getConsoleById(@Path() id: number): Promise<ConsoleDTO | null> {
-    return consoleService.getConsoleById(id);
+      return consoleService.getConsoleById(id);
+  }
+
+  // Récupère une console par ID
+  @Get("{id}/games")
+  public async getGamesByConsoleId(@Path() id: number): Promise<GameDTO[] | null> {
+    return gameService.getGameByConsoleId(id);
   }
 
   // Crée une nouvelle console
@@ -22,7 +32,7 @@ export class ConsoleController extends Controller {
   public async createConsole(
     @Body() requestBody: ConsoleDTO
   ): Promise<ConsoleDTO> {
-    const { name, manufacturer } = requestBody;
+    const {name, manufacturer } = requestBody;
     return consoleService.createConsole(name, manufacturer);
   }
 
@@ -39,6 +49,7 @@ export class ConsoleController extends Controller {
     @Body() requestBody: ConsoleDTO
   ): Promise<ConsoleDTO | null> {
     const { name, manufacturer } = requestBody;
+
     return consoleService.updateConsole(id, name, manufacturer);
   }
 }
