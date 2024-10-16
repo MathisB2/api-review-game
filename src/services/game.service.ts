@@ -2,7 +2,7 @@ import { GameDTO } from "../dto/game.dto";
 import { Console } from "../models/console.model";
 import { Game } from "../models/game.model";
 import {ConsoleDTO} from "../dto/console.dto";
-import {ConsoleService} from "./console.service";
+import {consoleService, ConsoleService} from "./console.service";
 import {notFound} from "../error/NotFoundError";
 import {Review} from "../models/review.model";
 import {foreignKeyError} from "../error/ForeignKeyError";
@@ -67,6 +67,16 @@ export class GameService {
     await game.destroy();
   }
 
+  public async getGameByConsoleId(id: number): Promise<GameDTO[] | null> {
+    const console = await consoleService.getConsoleById(id);
+    if(!console) notFound("Console");
+
+    return  await Game.findAll({
+      where:{
+        console_id:id
+      }
+    })
+  }
 }
 
 export const gameService = new GameService();
