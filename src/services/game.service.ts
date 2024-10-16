@@ -2,7 +2,7 @@ import { GameDTO } from "../dto/game.dto";
 import { Console } from "../models/console.model";
 import { Game } from "../models/game.model";
 import {ConsoleDTO} from "../dto/console.dto";
-import {consoleService, ConsoleService} from "./console.service";
+import {consoleService} from "./console.service";
 import {notFound} from "../error/NotFoundError";
 import {Review} from "../models/review.model";
 import {foreignKeyError} from "../error/ForeignKeyError";
@@ -31,8 +31,7 @@ export class GameService {
   }
 
   public async createGame(title: string, console: ConsoleDTO): Promise<GameDTO | null> {
-    const existingConsole = await Console.findByPk(console.id)
-    if(!existingConsole) return notFound("Console");
+    await consoleService.getConsoleById(console.id);
 
     return Game.create({
       title:title,

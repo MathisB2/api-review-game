@@ -2,11 +2,8 @@ import {Review} from "../models/review.model";
 import {ReviewDTO} from "../dto/review.dto";
 import {Game} from "../models/game.model";
 import {notFound} from "../error/NotFoundError";
-import {ConsoleDTO} from "../dto/console.dto";
 import {GameDTO} from "../dto/game.dto";
-import {Console} from "../models/console.model";
-import {foreignKeyError} from "../error/ForeignKeyError";
-import {consoleService} from "./console.service";
+
 import {gameService} from "./game.service";
 
 export class ReviewService {
@@ -32,8 +29,7 @@ export class ReviewService {
 
     public async createReview(gameId: number | undefined, rating: number, reviewText: string): Promise<ReviewDTO | null> {
         if(!gameId) return notFound("Game");
-        const existingGame = await Game.findByPk(gameId)
-        if(!existingGame) return notFound("Game");
+        await gameService.getGame(gameId);
 
         return Review.create({
             game_id: gameId,
