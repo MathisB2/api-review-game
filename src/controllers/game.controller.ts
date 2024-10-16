@@ -16,9 +16,7 @@ export class GameController extends Controller {
 
   @Get("/{id}")
   public async getGameById(@Path() id: number): Promise<GameDTO | null> {
-    const game = await gameService.getGame(id);
-    if (!game) notFound("Game");
-    return game;
+    return await gameService.getGame(id);
   }
 
 

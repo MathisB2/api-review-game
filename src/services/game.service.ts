@@ -19,11 +19,13 @@ export class GameService {
 
 
   public async getGame(id: number): Promise<GameDTO | null> {
-    return Game.findOne({
+    const game = Game.findOne({
       where:{
         id:id
       }
     })
+    if (!game) notFound("Game");
+    return game;
   }
 
   public async createGame(title: string, console: ConsoleDTO): Promise<GameDTO | null> {

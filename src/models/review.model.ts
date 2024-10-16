@@ -1,10 +1,10 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
-import {Console} from "./console.model";
 import {Game} from "./game.model"; // Connexion à la base de données
 
 export interface ReviewAttributes {
-    id:number,
+    id?:number,
+    game?: Game
     game_id:number,
     rating: number,
     review_text: string
@@ -15,6 +15,7 @@ export class Review
   implements ReviewAttributes
 {
     id!: number;
+    game!: Game;
     game_id!: number;
     rating!: number;
     review_text!: string;
