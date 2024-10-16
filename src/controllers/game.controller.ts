@@ -1,9 +1,8 @@
 import {Body, Controller, Delete, Get, Patch, Path, Post, Route, Tags} from "tsoa";
 import { GameDTO } from "../dto/game.dto";
 import { gameService } from "../services/game.service";
-import {ConsoleDTO} from "../dto/console.dto";
-import {consoleService} from "../services/console.service";
-import {notFound} from "../error/NotFoundError";
+import {reviewService} from "../services/review.service";
+import {ReviewDTO} from "../dto/review.dto";
 
 @Route("games")
 @Tags("Games")
@@ -18,6 +17,12 @@ export class GameController extends Controller {
   public async getGameById(@Path() id: number): Promise<GameDTO | null> {
     return await gameService.getGame(id);
   }
+
+  @Get("/{id}/reviews")
+  public async getReviewsByGameId(@Path() id: number): Promise<ReviewDTO[] | null> {
+    return await reviewService.getReviewsByGameId(id);
+  }
+
 
 
   // Crée un nouveau jeu
