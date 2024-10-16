@@ -4,6 +4,8 @@ import { Game } from "../models/game.model";
 import {ConsoleDTO} from "../dto/console.dto";
 import {ConsoleService} from "./console.service";
 import {notFound} from "../error/NotFoundError";
+import {Review} from "../models/review.model";
+import {foreignKeyError} from "../error/ForeignKeyError";
 
 export class GameService {
   public async getAllGames(): Promise<GameDTO[]> {
@@ -51,6 +53,20 @@ export class GameService {
 
     return game;
   }
+
+  async deleteGame(id: number): Promise<void> {
+    const reviewCount = await Review.count({
+      where:{
+        game_id:id
+      }
+    });
+    if(reviewCount>0) foreignKeyError()
+
+    const game = await Game.findByPk(id);
+    if(!game) notFound("Game");
+    await game.destroy();
+  }
+
 }
 
 export const gameService = new GameService();

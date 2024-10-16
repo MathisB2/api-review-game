@@ -5,6 +5,7 @@ import {notFound} from "../error/NotFoundError";
 import {ConsoleDTO} from "../dto/console.dto";
 import {GameDTO} from "../dto/game.dto";
 import {Console} from "../models/console.model";
+import {foreignKeyError} from "../error/ForeignKeyError";
 
 export class ReviewService {
     public async getAllReviews(): Promise<ReviewDTO[]> {
@@ -57,6 +58,13 @@ export class ReviewService {
         await review.save();
 
         return review;
+    }
+
+
+    async deleteReview(id: number): Promise<void> {
+        const review = await Review.findByPk(id);
+        if(!review) notFound("Review");
+        await review.destroy();
     }
 }
 
